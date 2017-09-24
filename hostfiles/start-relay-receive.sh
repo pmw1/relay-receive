@@ -1,2 +1,2 @@
 #!/bin/bash
-cvlc udp://@:3001 -I dummy --ignore-config --network-caching=400 --decklink-vout-video-connection sdi --decklink-mode Hi59 --decklink-aspect-ratio=16:9 -V decklinkoutput -A decklinkoutput --decklink-vout-mode Hi59 
+cvlc -vvv udp://@:4443 -I dummy --ignore-config --network-caching=300 --decklink-vout-video-connection sdi --decklink-mode Hi59 --decklink-aspect-ratio=16:9 -V decklinkoutput -A decklinkoutput --decklink-vout-mode Hi59 

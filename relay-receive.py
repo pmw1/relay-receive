@@ -14,6 +14,8 @@ user=os.getlogin()
 
 
 
+
+
 #####################################################################################
 ########################  PARSE ARGUEMENTS INTO VARIABLES ###########################
 if __name__ == "__main__":
@@ -61,7 +63,7 @@ def buildCvlcLauncher():
 	## open file for writing
 	direct_recevie_file = open("hostfiles/start-relay-receive.sh", "wb")
 	direct_recevie_file.write(bytes("#!/bin/bash\n", 'UTF-8'))
-	direct_recevie_file.write(bytes("cvlc {}://@:{} ".format(mode, port), 'UTF-8'))
+	direct_recevie_file.write(bytes("cvlc -vvv {}://@:{} ".format(mode, port), 'UTF-8'))
 	direct_recevie_file.write(bytes("-I dummy ", 'UTF-8'))
 	direct_recevie_file.write(bytes("--ignore-config ", 'UTF-8'))
 	direct_recevie_file.write(bytes("--network-caching=" + caching + " ", 'UTF-8'))
@@ -91,6 +93,8 @@ def buildCvlcLauncher():
 
 
 
+
+
 #####################################################################################
 #############################    BUILD DOCKER LAUNCHER    ###########################
 
@@ -107,10 +111,12 @@ def dockerLauncher():
 	start_docker_file.write(bytes("--ip=\"10.0.10.5\" ", 'UTF-8'))
 	start_docker_file.write(bytes("--name \"relay-receive\" ", 'UTF-8'))
 	start_docker_file.write(bytes("-v /home/" + user +"/apps/relay-receive/hostfiles:/data/hostfiles ", 'UTF-8'))
-	start_docker_file.write(bytes("--privileged -i -t ", 'UTF-8'))
-	start_docker_file.write(bytes("-p {}:{}/udp ".format(port, port), 'UTF-8'))
+	
+	start_docker_file.write(bytes("-p{}:{}/udp ".format(port, port), 'UTF-8'))
 	start_docker_file.write(bytes("--device /dev/blackmagic/io0 ", 'UTF-8'))
-	start_docker_file.write(bytes("--entrypoint=\"/data/hostfiles/start-relay-receive.sh\" ", 'UTF-8'))
+	start_docker_file.write(bytes("--privileged -i -t ", 'UTF-8'))
+	##start_docker_file.write(bytes("--entrypoint=\"/data/hostfiles/start-relay-receive.sh\" ", 'UTF-8'))
+	start_docker_file.write(bytes("--entrypoint=\"/bin/bash\" ", 'UTF-8'))
 	start_docker_file.write(bytes("pmw1/vlc", 'UTF-8'))
 
 	start_docker_file.close()
@@ -120,6 +126,18 @@ def dockerLauncher():
 
 #####################################################################################
 ############################# END BUILD DOCKER LAUNCHER ############################
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def testDestroyOption():
